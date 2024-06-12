@@ -1,7 +1,7 @@
 const express = require('express');
 const publicRouter = require('./route/public-api');
 const userRouter = require('./route/api.js');
-const { sequelize } = require('./models');
+
 
 
 require('dotenv').config();
