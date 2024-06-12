@@ -1,0 +1,72 @@
+'use strict';
+const {
+    Model
+} = require('sequelize');
+module.exports = (sequelize, DataTypes) => {
+    class mode_pembelajaran extends Model {
+        static associate(models) {
+            mode_pembelajaran.belongsTo(models.kelas, {
+                foreignKey: 'id_kelas',
+                as: 'kelas'
+            });
+        }
+    }
+    mode_pembelajaran.init({
+        id_mode_pembelajaran: {
+            type: DataTypes.INTEGER,
+            primaryKey: true,
+            autoIncrement: true
+        },
+        nama_mode_pembelajaran: DataTypes.STRING,
+        deskripsi_mode_pembelajaran: DataTypes.TEXT,
+        id_kelas: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: 'kelas',
+                key: 'id_kelas'
+            }
+        }
+    }, {
+        sequelize,
+        modelName: 'mode_pembelajaran',
+        tableName: 'mode_pembelajaran',
+        underscored: true
+    });
+    return mode_pembelajaran;
+};
+
+
+
+
+'use strict';
+module.exports = {
+  up: async (queryInterface, Sequelize) => {
+    await queryInterface.createTable('mode_pembelajaran', {
+      id_mode_pembelajaran: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.INTEGER
+      },
+      nama_mode_pembelajaran: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      deskripsi_mode_pembelajaran: {
+        type: Sequelize.TEXT,
+        allowNull: true
+      },
+      id_kelas: {
+        type: Sequelize.INTEGER,
+        references: {
+          model: 'kelas',
+          key: 'id_kelas'
+        },
+        allowNull: false
+      }
+    });
+  },
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable('mode_pembelajaran');
+  }
+};
